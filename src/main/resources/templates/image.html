@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Chat</title>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<script type="text/javascript">
+
+  document.addEventListener("DOMContentLoaded", function() {
+
+    document.getElementById("submit").addEventListener("click", function() {
+      let imageName = document.getElementById("image-name").value;
+
+      let imageDiv = document.getElementById("image-div");
+      imageDiv.innerHTML += "<img src=http://localhost:8080/images/" + imageName + " width='300px' height='300px'>";
+    });
+  });
+
+</script>
+<body>
+
+이미지 번호
+<input type="text" id="image-name">
+<br>
+<button id="submit" type="button">입력</button>
+
+<div id="image-div">
+
+</div>
+</body>
+</html>
