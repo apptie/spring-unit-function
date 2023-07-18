@@ -4,11 +4,14 @@ import com.spring.function.domain.UploadImage;
 import com.spring.function.repository.UploadImageRepository;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -68,6 +71,7 @@ public class UploadImageService {
         return originalFilename.substring(position + 1);
     }
 
+    /*
     public String findFullPathById(Long id) {
         final UploadImage uploadImage = uploadImageRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("없는 이미지입니다."));
@@ -75,7 +79,28 @@ public class UploadImageService {
         return findFullPath(uploadImage.getStoreFileName());
     }
 
+     */
+
+    public Resource findImageById(Long id) throws MalformedURLException {
+        final UploadImage uploadImage = uploadImageRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("없는 이미지입니다."));
+
+        final String fullPath = findFullPath(uploadImage.getStoreFileName());
+
+        return new UrlResource("file:" + fullPath);
+    }
+
     private String findFullPath(String filename) {
         return fileDir + filename;
     }
+
+    /*
+    public String findFullPathById(Long id) {
+        final UploadImage uploadImage = uploadImageRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("없는 이미지입니다."));
+
+        return findFullPath(uploadImage.getStoreFileName());
+    }
+
+     */
 }
